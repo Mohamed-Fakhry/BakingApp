@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Baking App</string>
+    <string name="some_error" />
+    <string name="api_default_error" />
+    <string name="connection_error" />
+    <string name="api_retry_error" />
+</resources>
