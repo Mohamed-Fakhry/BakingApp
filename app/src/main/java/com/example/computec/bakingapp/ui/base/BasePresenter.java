@@ -5,7 +5,7 @@ import android.util.Log;
 
 import com.androidnetworking.common.ANConstants;
 import com.androidnetworking.error.ANError;
-import com.example.computec.bakingapp.ApiError;
+import com.example.computec.bakingapp.service.ApiError;
 import com.example.computec.bakingapp.R;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

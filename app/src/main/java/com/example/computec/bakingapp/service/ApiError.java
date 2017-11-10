@@ -1,4 +1,4 @@
-package com.example.computec.bakingapp;
+package com.example.computec.bakingapp.service;
 
 
 import com.google.gson.annotations.Expose;
