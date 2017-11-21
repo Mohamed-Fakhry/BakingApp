@@ -44,6 +44,10 @@ public class Recipe implements Parcelable {
         return steps;
     }
 
+    public void setSteps(ArrayList<Step> steps) {
+        this.steps = steps;
+    }
+
     @Override
     public String toString() {
         return "Recipe{" +

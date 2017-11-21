@@ -3,7 +3,6 @@ package com.example.computec.bakingapp.utils;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.media.MediaMetadataRetriever;
-import android.os.Build;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -75,5 +74,4 @@ public class ImageUtils {
                 })
                 .into(imageView);
     }
-
 }

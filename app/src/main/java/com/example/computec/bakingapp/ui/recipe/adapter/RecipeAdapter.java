@@ -4,7 +4,6 @@ package com.example.computec.bakingapp.ui.recipe.adapter;
 import android.graphics.Bitmap;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,25 +12,20 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.DecodeFormat;
-import com.bumptech.glide.load.engine.bitmap_recycle.BitmapPool;
-import com.bumptech.glide.load.resource.bitmap.FileDescriptorBitmapDecoder;
-import com.bumptech.glide.load.resource.bitmap.VideoBitmapDecoder;
 import com.example.computec.bakingapp.R;
 import com.example.computec.bakingapp.model.Recipe;
 import com.example.computec.bakingapp.ui.base.BaseViewHolder;
+import com.example.computec.bakingapp.ui.recipedetails.RecipeDetailsFragment;
 import com.example.computec.bakingapp.utils.ImageUtils;
 
 import java.util.ArrayList;
 
 import butterknife.BindView;
 
-import static io.reactivex.schedulers.Schedulers.start;
-
 public class RecipeAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 
-    public static final int VIEW_TYPE_EMPTY = 0;
-    public static final int VIEW_TYPE_NORMAL = 1;
+    private static final int VIEW_TYPE_EMPTY = 0;
+    private static final int VIEW_TYPE_NORMAL = 1;
 
     private ArrayList<Recipe> recipes;
 
@@ -75,6 +69,8 @@ public class RecipeAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         TextView recipeTV;
         @BindView(R.id.progressBar)
         ProgressBar progressBar;
+        @BindView(R.id.servingTV)
+        TextView servingTV;
 
         RecipeVH(View itemView) {
             super(itemView);
@@ -86,6 +82,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<BaseViewHolder> {
             Recipe recipe = recipes.get(position);
 
             recipeTV.setText(recipe.getName());
+            servingTV.setText(String.valueOf(recipe.getServings()));
 
             if (recipe.getImage() == null || recipe.getImage().isEmpty()) {
                 String url = recipe.getSteps().get(recipe.getSteps().size() - 1).getVideoURL();
@@ -110,6 +107,14 @@ public class RecipeAdapter extends RecyclerView.Adapter<BaseViewHolder> {
                         .load(recipe.getImage())
                         .into(recipeIV);
             }
+
+            itemView.setOnClickListener(view ->
+                    ((AppCompatActivity) itemView.getContext())
+                            .getSupportFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.container, RecipeDetailsFragment.newInstance(recipe))
+                            .addToBackStack(null)
+                            .commit());
         }
     }
 

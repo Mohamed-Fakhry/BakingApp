@@ -2,9 +2,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    tools:context="com.example.computec.bakingapp.ui.recipe.RecipeFragment">
+    tools:context="com.example.computec.bakingapp.ui.recipedetails.RecipeDetailsFragment">
+
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/app_bar"
@@ -14,17 +14,13 @@
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:title="@string/app_name"/>
+            android:layout_height="match_parent"/>
 
     </android.support.design.widget.AppBarLayout>
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/recipeRV"
+        android:id="@+id/recipeDetailsRV"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingEnd="4dp"
-        android:paddingStart="4dp"
-        android:paddingTop="4dp"
-        tools:listitem="@layout/item_recipe"/>
+        android:padding="8dp"/>
 </LinearLayout>
