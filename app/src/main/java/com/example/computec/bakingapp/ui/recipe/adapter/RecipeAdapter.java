@@ -4,6 +4,7 @@ package com.example.computec.bakingapp.ui.recipe.adapter;
 import android.graphics.Bitmap;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,7 @@ import com.bumptech.glide.Glide;
 import com.example.computec.bakingapp.R;
 import com.example.computec.bakingapp.model.Recipe;
 import com.example.computec.bakingapp.ui.base.BaseViewHolder;
+import com.example.computec.bakingapp.ui.recipedetails.RecipeDetailsActivity;
 import com.example.computec.bakingapp.ui.recipedetails.RecipeDetailsFragment;
 import com.example.computec.bakingapp.utils.ImageUtils;
 
@@ -80,8 +82,14 @@ public class RecipeAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         public void onBind(int position) {
             super.onBind(position);
             Recipe recipe = recipes.get(position);
-
+            Log.d("test", recipe + "\n" + recipes.toString());
             recipeTV.setText(recipe.getName());
+
+            itemView.setOnClickListener(view ->
+                    itemView.getContext().startActivity(RecipeDetailsActivity
+                            .startRecipeDetailsActivity(itemView.getContext(), recipe)));
+
+
             servingTV.setText(String.valueOf(recipe.getServings()));
 
             if (recipe.getImage() == null || recipe.getImage().isEmpty()) {
@@ -107,14 +115,6 @@ public class RecipeAdapter extends RecyclerView.Adapter<BaseViewHolder> {
                         .load(recipe.getImage())
                         .into(recipeIV);
             }
-
-            itemView.setOnClickListener(view ->
-                    ((AppCompatActivity) itemView.getContext())
-                            .getSupportFragmentManager()
-                            .beginTransaction()
-                            .replace(R.id.container, RecipeDetailsFragment.newInstance(recipe))
-                            .addToBackStack(null)
-                            .commit());
         }
     }
 

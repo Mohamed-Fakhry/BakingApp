@@ -71,8 +71,8 @@ public class Recipe implements Parcelable {
         dest.writeString(this.name);
         dest.writeString(this.image);
         dest.writeInt(this.servings);
-        dest.writeList(this.ingredients);
-        dest.writeList(this.steps);
+        dest.writeTypedList(this.ingredients);
+        dest.writeTypedList(this.steps);
     }
 
     protected Recipe(Parcel in) {
@@ -80,10 +80,8 @@ public class Recipe implements Parcelable {
         this.name = in.readString();
         this.image = in.readString();
         this.servings = in.readInt();
-        this.ingredients = new ArrayList<Ingredient>();
-        in.readList(this.ingredients, Ingredient.class.getClassLoader());
-        this.steps = new ArrayList<Step>();
-        in.readList(this.steps, Step.class.getClassLoader());
+        this.ingredients = in.createTypedArrayList(Ingredient.CREATOR);
+        this.steps = in.createTypedArrayList(Step.CREATOR);
     }
 
     public static final Parcelable.Creator<Recipe> CREATOR = new Parcelable.Creator<Recipe>() {

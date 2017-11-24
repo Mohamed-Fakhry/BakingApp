@@ -25,10 +25,8 @@ public class RecipeDetailsFragment extends BaseFragment {
 
     @BindView(R.id.recipeDetailsRV)
     RecyclerView recipeDetailsRV;
-    @BindView(R.id.toolbar)
-    Toolbar toolbar;
 
-    private static final String RECIPE_KEY = "recipe";
+    static final String RECIPE_KEY = "recipe";
 
     private Recipe recipe;
     RecipeDetailsAdapter recpieDetailsAdapter;
@@ -57,12 +55,12 @@ public class RecipeDetailsFragment extends BaseFragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_recipe_details, container, false);
         setUnBinder(ButterKnife.bind(this, view));
+        getActivity().setTitle(recipe.getName());
         return view;
     }
 
     @Override
     protected void setUp(View view) {
-        toolbar.setTitle(recipe.getName());
         recipeDetailsRV.setLayoutManager(new LinearLayoutManager(getBaseActivity(),
                 LinearLayoutManager.VERTICAL, false));
         ArrayList recipeDetails = new ArrayList();

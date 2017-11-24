@@ -49,7 +49,7 @@ public class Ingredient implements Parcelable {
     }
 
     protected Ingredient(Parcel in) {
-        this.quantity = in.readInt();
+        this.quantity = in.readFloat();
         this.measure = in.readString();
         this.ingredient = in.readString();
     }

@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,10 +12,12 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.computec.bakingapp.R;
 import com.example.computec.bakingapp.model.Ingredient;
 import com.example.computec.bakingapp.model.Step;
 import com.example.computec.bakingapp.ui.base.BaseViewHolder;
+import com.example.computec.bakingapp.ui.recipestepdetails.RecipeStepDetailsActivity;
 import com.example.computec.bakingapp.ui.recipestepdetails.RecipeStepDetailsFragment;
 import com.example.computec.bakingapp.utils.ImageUtils;
 
@@ -74,9 +77,6 @@ public class RecipeDetailsAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         @BindView(R.id.videoIV)
         ImageView videoIV;
         @Nullable
-        @BindView(R.id.progressBar)
-        ProgressBar progressBar;
-        @Nullable
         @BindView(R.id.videoTV)
         TextView videoTV;
 
@@ -105,7 +105,6 @@ public class RecipeDetailsAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         private void bindStepDetail(Step step) {
             assert videoTV != null;
             videoTV.setText(step.getShortDescription());
-            String url = step.getVideoURL();
             itemView.setOnClickListener(view -> {
                     if(((AppCompatActivity)itemView.getContext()).findViewById(R.id.videoContainer) != null) {
                         ((AppCompatActivity) itemView.getContext()).getSupportFragmentManager()
@@ -116,29 +115,17 @@ public class RecipeDetailsAdapter extends RecyclerView.Adapter<BaseViewHolder> {
                         ((TextView)((AppCompatActivity)itemView.getContext())
                                 .findViewById(R.id.stepTV)).setText(step.getDescription());
                     } else {
-                        ((AppCompatActivity) itemView.getContext()).getSupportFragmentManager()
-                                .beginTransaction()
-                                .replace(R.id.container, RecipeStepDetailsFragment.newInstance(step))
-                                .addToBackStack(null)
-                                .commit();
+                        itemView.getContext().startActivity(RecipeStepDetailsActivity.
+                                startRecipeStepDetailsActivity(itemView.getContext(), step));
                     }});
-            try {
-                new Thread(() -> {
-                    try {
-                        Bitmap bitmap = ImageUtils.retriveVideoFrameFromVideo(url);
-
-                        ((AppCompatActivity) itemView.getContext()).runOnUiThread(() -> {
-                            assert videoIV != null;
-                            videoIV.setImageBitmap(bitmap);
-                            assert progressBar != null;
-                            progressBar.setVisibility(View.GONE);
-                        });
-                    } catch (Throwable throwable) {
-                        throwable.printStackTrace();
-                    }
-                }).start();
-            } catch (Exception e) {
-                e.printStackTrace();
+            if (!TextUtils.isEmpty(step.getThumbnailURL())) {
+                Glide.with(itemView.getContext())
+                        .load(step.getThumbnailURL())
+                        .into(videoIV);
+            } else {
+                Glide.with(itemView.getContext())
+                        .load(R.drawable.placeholder)
+                        .into(videoIV);
             }
         }
     }
