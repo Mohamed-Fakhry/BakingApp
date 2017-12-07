@@ -108,9 +108,11 @@ public class RecipeStepDetailsFragment extends BaseFragment {
             stepDescriptionTV.setText(step.getDescription());
             toolbar.setTitle(step.getShortDescription());
 
-            getBaseActivity().setSupportActionBar(toolbar);
-            getBaseActivity().getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getBaseActivity().getSupportActionBar().setDisplayShowHomeEnabled(true);
+            try {
+                getBaseActivity().setSupportActionBar(toolbar);
+                getBaseActivity().getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+                getBaseActivity().getSupportActionBar().setDisplayShowHomeEnabled(true);
+            } catch (Exception e) {}
         }
         Log.d("text", step.toString());
         playerUri = Uri.parse(step.getVideoURL());
@@ -168,6 +170,7 @@ public class RecipeStepDetailsFragment extends BaseFragment {
             position = player.getCurrentPosition();
             isPlayerPlaying = player.getPlayWhenReady();
             player.setPlayWhenReady(false);
+            player.release();
         }
     }
 
@@ -176,6 +179,8 @@ public class RecipeStepDetailsFragment extends BaseFragment {
         super.onStop();
         if (player != null) {
             player.setPlayWhenReady(isPlayerPlaying);
+            player.release();
+            player = null;
         }
     }
 }
